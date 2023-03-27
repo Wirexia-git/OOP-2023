@@ -78,6 +78,13 @@ public class Ship {
                 pos.y -= forward.y;
 
             }
+
+            if (p.key == ' ')
+            {
+                Bullet b = new Bullet(pos.x, pos.y, rot, p);
+
+                ((YASC)p).bullets.add
+            }
         }
     }
 
