@@ -79,7 +79,7 @@ public class Ship {
 
             }
 
-            if (p.key == ' ')
+            if (yasc.keys[' '])
             {
                 Bullet b = new Bullet(pos.x, pos.y, rot, p);
 
