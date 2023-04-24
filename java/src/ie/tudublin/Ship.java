@@ -4,46 +4,18 @@ import processing.core.PApplet;
 import processing.core.PVector;
 
 public class Ship extends GameObject {
-    private PVector pos;
-    private PVector forward;
-    private PApplet p;
+    
+    float size;
+    float halfSize;
 
     public Ship(float x, float y, float size, int c, PApplet p)
     {
-        super(x, y, rot:0, c, p);
+        super(x, y, 0, c, p);  
         this.size = size;
-        halfSize = size / 2;    
+        halfSize = size / 2;
     }
 
-    public PVector getPos() {
-        return pos;
-    }
-    public void setPos(PVector pos) {
-        this.pos = pos;
-    }
-    public float getRot() {
-        return rot;
-    }
-    public void setRot(float rot) {
-        this.rot = rot;
-    }
-    public int getC() {
-        return c;
-    }
-    public void setC(int c) {
-        this.c = c;
-    }
-    public float getSize() {
-        return size;
-    }
-    public void setSize(float size) {
-        this.size = size;
-    }
-    private float rot;
-    private int c;
-    private float size;
-    private float halfSize;
-
+    
     int fireRate = 5;
 
     int toPass = 1000 / fireRate;
@@ -53,18 +25,19 @@ public class Ship extends GameObject {
 
     public void checkCollisions()
     {
-        for(int i = ((YASC)p).gameObjects.size(); i >= 0; i--)
+        for(int i = ((YASC)p).gameObjects.size() - 1 ; i >= 0 ; i --)
         {
-            GameObject go = ((YASC)p).gameObjects.get(i)
+            GameObject go = ((YASC)p).gameObjects.get(i);
             if (go instanceof Bullet && PVector.dist(go.pos, pos) < halfSize)
             {
                 health --;
-                ((YASC)p).gameObjects.remove(go);            
+                ((YASC)p).gameObjects.remove(go);
             }
         }
+
     }
 
-    public void move()
+    public void update()
     {
         forward.x = PApplet.sin(rot);
         forward.y = - PApplet.cos(rot);
@@ -109,6 +82,7 @@ public class Ship extends GameObject {
         ellapsed += timeDelta;
         last = now;
 
+        checkCollisions();
     }
     int last = 0;
     int timeDelta;
@@ -117,10 +91,11 @@ public class Ship extends GameObject {
     {
         p.pushMatrix();
         p.translate(pos.x, pos.y);
-
+        
         p.fill(255);
         p.text("Health: " + health, 50, 0);
-
+        p.noFill();
+        
         p.rotate(rot);
         p.stroke(c, 255, 255);
         p.line(- halfSize, halfSize, 0, - halfSize);
@@ -128,6 +103,7 @@ public class Ship extends GameObject {
         p.line(halfSize, halfSize, 0, 0);
         p.line(0, 0, -halfSize, halfSize);
         p.popMatrix();
+
     }
 
     
