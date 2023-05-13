@@ -1,5 +1,6 @@
 package ie.tudublin;
 
-public class Powerup {
+public interface Powerup {
+    public void applyTo(Ship s);
     
 }
